@@ -65,6 +65,8 @@ type ArmClient struct {
 	vmScaleSetClient     compute.VirtualMachineScaleSetsClient
 	storageServiceClient storage.AccountsClient
 
+	imagesClient compute.ImagesClient
+
 	// Network
 	vnetClient         network.VirtualNetworksClient
 	secGroupClient     network.SecurityGroupsClient
@@ -184,6 +186,10 @@ func (c *ArmClient) registerComputeClients(endpoint, subscriptionId string, auth
 	virtualMachineImagesClient := compute.NewVirtualMachineImagesClientWithBaseURI(endpoint, subscriptionId)
 	c.configureClient(&virtualMachineImagesClient.Client, auth)
 	c.vmImageClient = virtualMachineImagesClient
+
+	imagesClient := compute.NewImagesClientWithBaseURI(endpoint, subscriptionId)
+	c.configureClient(&imagesClient.Client, auth)
+	c.imagesClient = imagesClient
 }
 
 func (c *ArmClient) registerDNSClients(endpoint, subscriptionId string, auth autorest.Authorizer) {
